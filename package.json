@@ -4,7 +4,7 @@
   "description": "Password generator",
   "main": "/build/app.js",
   "scripts": {
-    "dev": "tsc --watch & nodemon ./build/app.js test.raw"
+    "dev": "tsc --watch & nodemon ./build/app.js --file test.raw --editor"
   },
   "author": "Milan Koyš",
   "license": "MIT",
@@ -12,5 +12,11 @@
     "@types/node": "^22.10.2",
     "nodemon": "^3.1.9",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0"
   }
 }

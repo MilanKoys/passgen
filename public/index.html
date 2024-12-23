@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="main.js" type="module" defer></script>
+        <title>Passgen</title>
+    </head>
+    <body>
+        <input type="file" />
+        <input type="text" id="password" placeholder="Password" />
+        <div>
+            <input value="640" type="text" id="width" placeholder="Width" />
+            <input value="480" type="text" id="height" placeholder="Height" />
+        </div>
+        <button id="encrypt">Encrypt</button>
+        <button id="decrypt">Decrypt</button>
+        <button id="save">Save Image</button>
+        <canvas></canvas>
+    </body>
+</html>
