@@ -1,0 +1,16 @@
+{
+  "name": "passgen",
+  "version": "1.0.0",
+  "description": "Password generator",
+  "main": "app.js",
+  "scripts": {
+    "dev": "tsc --watch & nodemon app.js test.raw"
+  },
+  "author": "Milan Koyš",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "nodemon": "^3.1.9",
+    "typescript": "^5.7.2"
+  }
+}
