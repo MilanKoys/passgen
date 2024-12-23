@@ -2,9 +2,9 @@
   "name": "passgen",
   "version": "1.0.0",
   "description": "Password generator",
-  "main": "app.js",
+  "main": "/build/app.js",
   "scripts": {
-    "dev": "tsc --watch & nodemon app.js test.raw"
+    "dev": "tsc --watch & nodemon ./build/app.js test.raw"
   },
   "author": "Milan Koyš",
   "license": "MIT",
