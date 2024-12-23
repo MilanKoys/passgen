@@ -5,6 +5,7 @@ const passwordInput = document.querySelector("input#password");
 const encryptButton = document.querySelector("button#encrypt");
 const decryptButton = document.querySelector("button#decrypt");
 const saveButton = document.querySelector("button#save");
+const hashText = document.querySelector("p#hash");
 const canvas = document.querySelector("canvas");
 
 let fileBuffer = null;
@@ -46,7 +47,7 @@ fileInput.addEventListener("change", async function (event) {
   reader.readAsArrayBuffer(file);
 });
 
-function renderBuffer(buffer, width, height) {
+async function renderBuffer(buffer, width, height) {
   const context = canvas.getContext("2d");
   canvas.width = width;
   canvas.height = height;
@@ -60,10 +61,14 @@ function renderBuffer(buffer, width, height) {
     context.fillStyle = `rgba(${r},${g},${b},${a})`;
     context.fillRect(x, y, 1, 1);
   }
+
+  hashText.textContent = btoa(
+    String.fromCharCode.apply(null, await sha256(fileBuffer)),
+  );
 }
 
 async function generateKey(password, length) {
-  const hash = await sha256(password);
+  const hash = await sha256string(password);
   const key = generateRandomString(hash, length);
   return key;
 }
@@ -84,11 +89,16 @@ async function decryptBuffer(password, buffer) {
   }
 }
 
-async function sha256(string) {
+async function sha256string(string) {
   const encoder = new TextEncoder();
   const data = encoder.encode(string);
-  const hashBuffer = await crypto.subtle.digest("SHA-512", data);
-  const hash = String.fromCharCode(...Array.from(new Uint8Array(hashBuffer)));
+  const hash = await sha256(data);
+  return String.fromCharCode(...hash);
+}
+
+async function sha256(data) {
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hash = new Uint8Array(hashBuffer);
   return hash;
 }
 
