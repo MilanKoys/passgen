@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
-const filePath = path.join(__dirname, process.argv[2]);
+const filePath = process.argv[2];
 
 fs.readFile(filePath, (err: Error, data: Buffer) => {
   if (err) throw err;
