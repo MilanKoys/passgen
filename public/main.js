@@ -9,6 +9,15 @@ const hashText = document.querySelector("p#hash");
 const canvas = document.querySelector("canvas");
 
 let fileBuffer = null;
+let scale = 1;
+
+document.addEventListener("wheel", (event) => {
+  const width = widthInput.value;
+  const height = heightInput.value;
+  const buffer = new Uint8Array(fileBuffer);
+  event.deltaY > 0 ? scale+=(0.1 * scale) : scale-=(0.1 * scale);
+  renderBuffer(buffer, width, height, scale);
+})
 
 saveButton.addEventListener("click", (event) =>
   saveArrayBuffer(fileBuffer, "image.raw"),
@@ -49,8 +58,8 @@ fileInput.addEventListener("change", async function (event) {
 
 async function renderBuffer(buffer, width, height) {
   const context = canvas.getContext("2d");
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = width * scale;
+  canvas.height = height * scale;
   for (let i = 0; i < width * height * 4; i += 4) {
     const y = Math.floor(i / 4 / width);
     const x = i / 4 - y * width;
@@ -59,7 +68,7 @@ async function renderBuffer(buffer, width, height) {
     const b = buffer[i + 2];
     const a = buffer[i + 3];
     context.fillStyle = `rgba(${r},${g},${b},${a})`;
-    context.fillRect(x, y, 1, 1);
+    context.fillRect(x * scale, y * scale, scale ,scale);
   }
 
   hashText.textContent = btoa(
