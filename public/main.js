@@ -5,6 +5,7 @@ const passwordInput = document.querySelector("input#password");
 const encryptButton = document.querySelector("button#encrypt");
 const decryptButton = document.querySelector("button#decrypt");
 const saveButton = document.querySelector("button#save");
+const generateButton = document.querySelector("button#generate");
 const hashText = document.querySelector("p#hash");
 const canvas = document.querySelector("canvas");
 
@@ -15,13 +16,21 @@ document.addEventListener("wheel", (event) => {
   const width = widthInput.value;
   const height = heightInput.value;
   const buffer = new Uint8Array(fileBuffer);
-  event.deltaY > 0 ? scale+=(0.1 * scale) : scale-=(0.1 * scale);
+  event.deltaY > 0 ? (scale += 0.1 * scale) : (scale -= 0.1 * scale);
   renderBuffer(buffer, width, height, scale);
-})
+});
 
 saveButton.addEventListener("click", (event) =>
-  saveArrayBuffer(fileBuffer, "image.raw"),
+  saveArrayBuffer(fileBuffer, "image.raw")
 );
+
+generateButton.addEventListener("click", (event) => {
+  const width = widthInput.value;
+  const height = heightInput.value;
+  fileBuffer = new ArrayBuffer(height * width * 4);
+  const buffer = new Uint8Array(fileBuffer);
+  renderBuffer(buffer, width, height);
+});
 
 encryptButton.addEventListener("click", async (event) => {
   const buffer = new Uint8Array(fileBuffer);
@@ -68,11 +77,11 @@ async function renderBuffer(buffer, width, height) {
     const b = buffer[i + 2];
     const a = buffer[i + 3];
     context.fillStyle = `rgba(${r},${g},${b},${a})`;
-    context.fillRect(x * scale, y * scale, scale ,scale);
+    context.fillRect(x * scale, y * scale, scale, scale);
   }
 
   hashText.textContent = btoa(
-    String.fromCharCode.apply(null, await sha256(fileBuffer)),
+    String.fromCharCode.apply(null, await sha256(fileBuffer))
   );
 }
 
